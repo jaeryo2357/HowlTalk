@@ -14,7 +14,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     @IBOutlet var tableView : UITableView?
     @IBOutlet var textField : UITextField?
     
-    let cellIndeifier : String = "toDoCell"
+    let cellIndeifier : String = "customCell"
     var toDoList : [String] = []
     
     override func viewDidLoad() {
@@ -27,8 +27,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if( textField.isEqual(self.textField))
-        {
+        if( textField.isEqual(self.textField)){
             let toDoInput = self.textField?.text
             if let value = toDoInput {
               toDoList.append(value)
@@ -44,8 +43,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
       }
       
       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIndeifier, for: indexPath)
-        cell.textLabel?.text = toDoList[indexPath.row]
+        guard let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.cellIndeifier, for: indexPath) as? CustomTableViewCell else {
+            preconditionFailure("테이블 뷰 셀 가져오기 실패")
+        }
+        cell.workLabel.text = toDoList[indexPath.row]
         return cell
       }
       
