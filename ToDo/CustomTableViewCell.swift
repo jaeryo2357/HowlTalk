@@ -13,10 +13,13 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet var workLabel : UILabel!
     @IBOutlet var checkButton : UIButton!
     @IBOutlet var deleteButton : UIButton!
-    
-    //Model, view를 구별할수 있는 기능 Custom Model class 추가 해도 됨
-    var model : String?
-    weak var delegate : CustomTableViewCellDelegate?
+ 
+//if you use delegate
+//Model, view를 구별할수 있는 기능 Custom Model class 추가 해도 됨
+//    var model : String?
+//    weak var delegate : CustomTableViewCellDelegate?
+//
+    var deleteButtonAction : (()->())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,13 +35,16 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @IBAction func deleteCellTapped(_ sender: UIButton){
-        if let model = model,
-           let delegate = delegate{
-            delegate.CustomTableViewCell(_cell: self, deleteCellTappedFor: model)
-        }
+// if you use delegate
+//        if let model = model,
+//           let delegate = delegate{
+//            delegate.CustomTableViewCell(_cell: self, deleteCellTappedFor: model)
+//        }
+        deleteButtonAction?()
     }
 }
 
-protocol CustomTableViewCellDelegate : AnyObject{
-     func CustomTableViewCell(_cell : CustomTableViewCell,deleteCellTappedFor model : String?)
-}
+//if you use delegate
+//protocol CustomTableViewCellDelegate : AnyObject{
+//     func CustomTableViewCell(_cell : CustomTableViewCell,deleteCellTappedFor model : String?)
+//}

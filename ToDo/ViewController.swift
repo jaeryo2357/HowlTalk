@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
-,UITextFieldDelegate,CustomTableViewCellDelegate{
+,UITextFieldDelegate{
    
 
     @IBOutlet var tableView : UITableView?
@@ -48,20 +48,30 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             preconditionFailure("테이블 뷰 셀 가져오기 실패")
         }
         cell.workLabel.text = toDoList[indexPath.row]
+// if you use tag property
 //        //assign the indexRow to button tag
 //        cell.deleteButton.tag = indexPath.row
 //        //call the deleteCell method when tapped
 //        cell.deleteButton.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
-        cell.model = toDoList[indexPath.row]
-        cell.delegate = self
+        
+ //if you use delegate
+//        cell.model = toDoList[indexPath.row]
+//        cell.delegate = self
+        
+        cell.deleteButtonAction = {
+            let indexRow = indexPath.row
+            self.toDoList.remove(at: indexRow)
+            self.tableView?.reloadData()
+        }
+        
         return cell
     }
     
-    func CustomTableViewCell(_cell: CustomTableViewCell, deleteCellTappedFor model: String?) {
-        let indexPath = toDoList.firstIndex(of: model!)
-        toDoList.remove(at: indexPath!)
-        tableView?.reloadData()
-       }
+//    func CustomTableViewCell(_cell: CustomTableViewCell, deleteCellTappedFor model: String?) {
+//        let indexPath = toDoList.firstIndex(of: model!)
+//        toDoList.remove(at: indexPath!)
+//        tableView?.reloadData()
+//       }
 
 //    @objc func deleteCell(_ sender: UIButton){
 //        let indexRow = sender.tag
