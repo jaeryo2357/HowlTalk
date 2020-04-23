@@ -9,8 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
-        ,UITextFieldDelegate{
-  
+,UITextFieldDelegate,CustomTableViewCellDelegate{
+   
+
     @IBOutlet var tableView : UITableView?
     @IBOutlet var textField : UITextField?
     
@@ -42,14 +43,32 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         return toDoList.count
       }
       
-      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.cellIndeifier, for: indexPath) as? CustomTableViewCell else {
             preconditionFailure("테이블 뷰 셀 가져오기 실패")
         }
         cell.workLabel.text = toDoList[indexPath.row]
+//        //assign the indexRow to button tag
+//        cell.deleteButton.tag = indexPath.row
+//        //call the deleteCell method when tapped
+//        cell.deleteButton.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
+        cell.model = toDoList[indexPath.row]
+        cell.delegate = self
         return cell
-      }
-      
+    }
+    
+    func CustomTableViewCell(_cell: CustomTableViewCell, deleteCellTappedFor model: String?) {
+        let indexPath = toDoList.firstIndex(of: model!)
+        toDoList.remove(at: indexPath!)
+        tableView?.reloadData()
+       }
+
+//    @objc func deleteCell(_ sender: UIButton){
+//        let indexRow = sender.tag
+//        toDoList.remove(at: indexRow)
+//        tableView?.reloadData()
+//    }
+//
     @IBAction func pushViewNext(){
         if let vc = storyboard?.instantiateViewController(identifier: "second"){
             self.title = ""
