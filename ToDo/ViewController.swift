@@ -48,6 +48,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             preconditionFailure("테이블 뷰 셀 가져오기 실패")
         }
         cell.workLabel.text = toDoList[indexPath.row]
+        cell.workLabel.sizeToFit()
 // if you use tag property
 //        //assign the indexRow to button tag
 //        cell.deleteButton.tag = indexPath.row
@@ -63,6 +64,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             self.toDoList.remove(at: indexRow)
             self.tableView?.reloadData()
         }
+        
+        
         
         return cell
     }

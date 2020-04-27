@@ -20,6 +20,7 @@ class CustomTableViewCell: UITableViewCell {
 //    weak var delegate : CustomTableViewCellDelegate?
 //
     var deleteButtonAction : (()->())?
+    var checkButtonAction : (()->())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,6 +33,7 @@ class CustomTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
         self.deleteButton.addTarget(self, action: #selector(deleteCellTapped(_:)), for: .touchUpInside)
+        self.checkButton.addTarget(self, action: #selector(checkCellTapped(_:)), for: .touchUpInside)
     }
     
     @IBAction func deleteCellTapped(_ sender: UIButton){
@@ -41,6 +43,22 @@ class CustomTableViewCell: UITableViewCell {
 //            delegate.CustomTableViewCell(_cell: self, deleteCellTappedFor: model)
 //        }
         deleteButtonAction?()
+    }
+    
+    @IBAction func checkCellTapped(_ sender: UIButton){
+        if(!sender.isSelected){
+            let stroke = CALayer()
+            stroke.frame = CGRect(x: 0, y: workLabel.frame.size.height / 2, width: workLabel.frame.width, height: 1)
+            stroke.backgroundColor = UIColor.gray.cgColor
+            workLabel.layer.addSublayer(stroke)
+            workLabel.textColor = UIColor.gray
+        }else{
+            workLabel.layer.sublayers?.removeAll()
+           workLabel.textColor = UIColor.black
+        }
+        sender.isSelected = !sender.isSelected
+        
+        checkButtonAction?()
     }
 }
 
