@@ -15,8 +15,9 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     @IBOutlet var tableView : UITableView?
     @IBOutlet var textField : UITextField?
     
+    var db : ToDoDB?
     let cellIndeifier : String = "customCell"
-    var toDoList : [String] = []
+    var toDoList : [ToDoItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +26,30 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         self.tableView?.dataSource = self
         textField?.delegate = self
         textField?.returnKeyType = .join
+        
+        do{
+          db = try ToDoDB()
+        } catch ToDoDB.SQLError.connectionError{
+            print("not open DB")
+        } catch {
+            print("some Error")
+        }
+        
+        if let myDB = db {
+            toDoList = myDB.fetchToDo()
+        }
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if( textField.isEqual(self.textField)){
             let toDoInput = self.textField?.text
             if let value = toDoInput {
-              toDoList.append(value)
+                let item = ToDoItem(id: 0, working: value, isSelected: false)
+              toDoList.append(item)
               self.textField?.text = ""
               tableView?.reloadData()
+              db?.insertToDo(work: value)
             }
         }
         return true
@@ -47,7 +63,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         guard let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.cellIndeifier, for: indexPath) as? CustomTableViewCell else {
             preconditionFailure("테이블 뷰 셀 가져오기 실패")
         }
-        cell.workLabel.text = toDoList[indexPath.row]
+        cell.workLabel.text = toDoList[indexPath.row].working
+        cell.checkButton.isSelected = toDoList[indexPath.row].isSelected
         cell.workLabel.sizeToFit()
 // if you use tag property
 //        //assign the indexRow to button tag
@@ -65,8 +82,9 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             self.tableView?.reloadData()
         }
         
-        
-        
+        cell.checkButtonAction = {
+            self.toDoList[indexPath.row].isSelected = cell.checkButton.isSelected
+        }
         return cell
     }
     
