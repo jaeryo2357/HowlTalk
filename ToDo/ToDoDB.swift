@@ -26,10 +26,8 @@ class ToDoDB{
     Work CHAR(255),
     Done INT);
     """
-    let insertStatementString = "INSERT INTO ToDo (Work, Done) VALUES (?, ?);"
     
-    let queryStatementString = "SELECT * FROM ToDo;"
-    
+  
     let path: String = {
       let fm = FileManager.default
       return fm.urls(for:.libraryDirectory, in:.userDomainMask).last!
@@ -45,7 +43,8 @@ class ToDoDB{
         throw SQLError.connectionError
     }
     
-    func insertToDo(work : String){
+    func insertToDo(work : String) -> Int{
+        let insertStatementString = "INSERT INTO ToDo (Work, Done) VALUES (?, ?);"
         var stmt: OpaquePointer? //query를 가리키는 포인터
         
         if sqlite3_prepare(db, insertStatementString, -1, &stmt, nil) == SQLITE_OK{
@@ -60,15 +59,30 @@ class ToDoDB{
             print("\nInsert Statement is not prepared")
         }
         sqlite3_finalize(stmt)
+        return Int(sqlite3_last_insert_rowid(db))
     }
     
     func updateToDo(id: Int, isSelected : Bool){
         
     }
     func deleteToDo(id: Int) {
-        
+      let deleteStatementString = "DELETE FROM ToDo WHERE Id = \(id);"
+      var stmt: OpaquePointer? //query를 가리키는 포인터
+      
+        if sqlite3_prepare(db, deleteStatementString, -1, &stmt, nil) == SQLITE_OK{
+            if sqlite3_step(stmt) == SQLITE_DONE{
+                print("\nDelete Row Success")
+            }else{
+                print("\nDelete Row Faild")
+            }
+        }else{
+            print("\nDelete Statement in not prepared")
+        }
+        sqlite3_finalize(stmt)
     }
+    
     func fetchToDo() -> [ToDoItem]{
+        let queryStatementString = "SELECT * FROM ToDo;"
         var items : [ToDoItem] = []
         var stmt: OpaquePointer? //query를 가리키는 포인터
         

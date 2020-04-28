@@ -44,12 +44,12 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if( textField.isEqual(self.textField)){
             let toDoInput = self.textField?.text
-            if let value = toDoInput {
-                let item = ToDoItem(id: 0, working: value, isSelected: false)
+            if let value = toDoInput ,let myDB = db {
+              let id = myDB.insertToDo(work: value)
+              let item = ToDoItem(id: id, working: value, isSelected: false)
               toDoList.append(item)
               self.textField?.text = ""
               tableView?.reloadData()
-              db?.insertToDo(work: value)
             }
         }
         return true
@@ -78,6 +78,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         cell.deleteButtonAction = {
             let indexRow = indexPath.row
+           
+            if let myDB = self.db{
+                myDB.deleteToDo(id: self.toDoList[indexRow].id)
+            }
             self.toDoList.remove(at: indexRow)
             self.tableView?.reloadData()
         }
