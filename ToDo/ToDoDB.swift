@@ -62,8 +62,21 @@ class ToDoDB{
         return Int(sqlite3_last_insert_rowid(db))
     }
     
-    func updateToDo(id: Int, isSelected : Bool){
+    func updateToDo(id: Int, work : String, isSelected : Bool){
+        let done = isSelected ? 1 : 0
+        let updateStatementString = "UPDATE ToDo SET Work = '\(work)',Done = \(done) WHERE Id = \(id);"
+        var stmt : OpaquePointer?
         
+        if sqlite3_prepare(db, updateStatementString, -1, &stmt, nil) == SQLITE_OK{
+            if sqlite3_step(stmt) == SQLITE_DONE{
+              print("\nUpdate Row Success")
+            }else{
+              print("\nUpdate Row Faild")
+            }
+        }else{
+            print("\nUpdate Statement in not prepared")
+        }
+        sqlite3_finalize(stmt)
     }
     func deleteToDo(id: Int) {
       let deleteStatementString = "DELETE FROM ToDo WHERE Id = \(id);"

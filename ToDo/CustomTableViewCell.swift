@@ -8,11 +8,12 @@
 
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+class CustomTableViewCell: UITableViewCell ,UITextFieldDelegate{
 
-    @IBOutlet var workLabel : UILabel!
+    @IBOutlet var workLabel : UITextField!
     @IBOutlet var checkButton : UIButton!
     @IBOutlet var deleteButton : UIButton!
+    @IBOutlet var updateButton : UIButton!
  
 //if you use delegate
 //Model, view를 구별할수 있는 기능 Custom Model class 추가 해도 됨
@@ -21,11 +22,25 @@ class CustomTableViewCell: UITableViewCell {
 //
     var deleteButtonAction : (()->())?
     var checkButtonAction : (()->())?
+    var updateButtonAction : ((String)->())?
+    
+    var textTemp : String? = ""
+    let stroke = CALayer()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        workLabel.delegate = self
+        workLabel.sizeToFit()
+    }
+    
+    func settingStroke(){
+        stroke.frame = CGRect(x: 0, y: workLabel.frame.size.height / 2, width: workLabel.frame.width, height: 1)
+               stroke.backgroundColor = UIColor.gray.cgColor
+               
+       if checkButton.isSelected {
+         workLabel.layer.addSublayer(stroke)
+       }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -34,6 +49,7 @@ class CustomTableViewCell: UITableViewCell {
         // Configure the view for the selected state
         self.deleteButton.addTarget(self, action: #selector(deleteCellTapped(_:)), for: .touchUpInside)
         self.checkButton.addTarget(self, action: #selector(checkCellTapped(_:)), for: .touchUpInside)
+        self.updateButton.addTarget(self, action: #selector(updateCellTapped(_:)), for: .touchUpInside)
     }
     
     @IBAction func deleteCellTapped(_ sender: UIButton){
@@ -45,15 +61,38 @@ class CustomTableViewCell: UITableViewCell {
         deleteButtonAction?()
     }
     
+    @IBAction func updateCellTapped(_ sender : UIButton){
+       
+        sender.isSelected = !sender.isSelected
+        
+        if sender.isSelected { //수정모드
+            textTemp = workLabel.text
+            workLabel.isEnabled = true
+            workLabel.becomeFirstResponder()
+        }else{
+            workLabel.text = textTemp
+            workLabel.isEnabled = false
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           if( textField.isEqual(self.workLabel)){ //textField가 return 받을 때
+            self.updateButton.isSelected = false
+            self.workLabel.isEnabled = false
+            if let text = self.workLabel.text{
+                settingStroke()
+                updateButtonAction?(text)
+            }
+           }
+           return true
+       }
+    
     @IBAction func checkCellTapped(_ sender: UIButton){
         if(!sender.isSelected){
-            let stroke = CALayer()
-            stroke.frame = CGRect(x: 0, y: workLabel.frame.size.height / 2, width: workLabel.frame.width, height: 1)
-            stroke.backgroundColor = UIColor.gray.cgColor
             workLabel.layer.addSublayer(stroke)
             workLabel.textColor = UIColor.gray
         }else{
-            workLabel.layer.sublayers?.removeAll()
+            workLabel.layer.sublayers?.removeLast()
            workLabel.textColor = UIColor.black
         }
         sender.isSelected = !sender.isSelected

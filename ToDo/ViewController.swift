@@ -66,6 +66,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         cell.workLabel.text = toDoList[indexPath.row].working
         cell.checkButton.isSelected = toDoList[indexPath.row].isSelected
         cell.workLabel.sizeToFit()
+        cell.settingStroke()
 // if you use tag property
 //        //assign the indexRow to button tag
 //        cell.deleteButton.tag = indexPath.row
@@ -86,8 +87,20 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             self.tableView?.reloadData()
         }
         
+        cell.updateButtonAction = { (work :String) in
+            if let myDB = self.db{
+                var item = self.toDoList[indexPath.row]
+                item.working = work
+                myDB.updateToDo(id: item.id, work : item.working,isSelected: item.isSelected)
+            }
+        }
+        
         cell.checkButtonAction = {
             self.toDoList[indexPath.row].isSelected = cell.checkButton.isSelected
+            if let myDB = self.db{
+                let item = self.toDoList[indexPath.row]
+                myDB.updateToDo(id: item.id, work : item.working,isSelected: item.isSelected)
+           }
         }
         return cell
     }

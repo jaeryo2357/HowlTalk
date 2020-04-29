@@ -25,14 +25,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" id="SIs-Nr-uRG" customClass="CustomTableViewCell" customModule="ToDo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="394" height="32.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="394" height="33.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SIs-Nr-uRG" id="hf9-RK-bKc">
-                                            <rect key="frame" x="0.0" y="0.0" width="394" height="32.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="394" height="33.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHh-3U-YXF">
-                                                    <rect key="frame" x="10" y="5" width="20" height="22.5"/>
+                                                    <rect key="frame" x="10" y="5" width="20" height="23.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="JMf-LE-C5f"/>
                                                     </constraints>
@@ -40,28 +40,38 @@
                                                     <state key="selected" image="checkmark.rectangle.fill" catalog="system"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbq-DE-fFP">
-                                                    <rect key="frame" x="364" y="5" width="20" height="22.5"/>
+                                                    <rect key="frame" x="364" y="5" width="20" height="23.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="Hrh-g0-m3s"/>
                                                     </constraints>
                                                     <state key="normal" image="clear.fill" catalog="system"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ny4-9d-NBE">
-                                                    <rect key="frame" x="46" y="5" width="44" height="23"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="test text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Je-OO-BGY">
+                                                    <rect key="frame" x="50" y="5" width="54" height="23.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="23" id="ZDD-cq-Y6L"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMa-wf-x4h">
+                                                    <rect key="frame" x="336" y="5" width="18" height="23.5"/>
+                                                    <state key="normal" image="pencil" catalog="system"/>
+                                                    <state key="selected" image="pencil.slash" catalog="system"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="tbq-DE-fFP" secondAttribute="trailing" constant="10" id="1Pz-ti-9G2"/>
                                                 <constraint firstAttribute="bottom" secondItem="iHh-3U-YXF" secondAttribute="bottom" constant="5" id="1Uu-jf-VZf"/>
-                                                <constraint firstItem="Ny4-9d-NBE" firstAttribute="leading" secondItem="iHh-3U-YXF" secondAttribute="trailing" constant="20" id="DDu-9y-QeG"/>
-                                                <constraint firstAttribute="bottom" secondItem="Ny4-9d-NBE" secondAttribute="bottom" constant="5" id="SaS-Iy-q6a"/>
+                                                <constraint firstItem="tbq-DE-fFP" firstAttribute="leading" secondItem="dMa-wf-x4h" secondAttribute="trailing" constant="10" id="ABW-fh-gDk"/>
+                                                <constraint firstAttribute="bottom" secondItem="5Je-OO-BGY" secondAttribute="bottom" constant="5" id="HhR-I2-CGH"/>
+                                                <constraint firstItem="dMa-wf-x4h" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5Je-OO-BGY" secondAttribute="trailing" constant="5" id="K4f-6c-bv3"/>
+                                                <constraint firstItem="5Je-OO-BGY" firstAttribute="top" secondItem="hf9-RK-bKc" secondAttribute="top" constant="5" id="Km3-vR-yUL"/>
+                                                <constraint firstAttribute="bottom" secondItem="dMa-wf-x4h" secondAttribute="bottom" constant="5" id="P8G-PL-Wt7"/>
+                                                <constraint firstItem="5Je-OO-BGY" firstAttribute="leading" secondItem="iHh-3U-YXF" secondAttribute="trailing" constant="20" id="Qmg-Gl-dKe"/>
+                                                <constraint firstItem="dMa-wf-x4h" firstAttribute="top" secondItem="hf9-RK-bKc" secondAttribute="top" constant="5" id="XAg-fu-hUG"/>
                                                 <constraint firstAttribute="bottom" secondItem="tbq-DE-fFP" secondAttribute="bottom" constant="5" id="YOA-Lw-1Cp"/>
                                                 <constraint firstItem="iHh-3U-YXF" firstAttribute="top" secondItem="hf9-RK-bKc" secondAttribute="top" constant="5" id="ZPO-nM-ANJ"/>
-                                                <constraint firstItem="tbq-DE-fFP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ny4-9d-NBE" secondAttribute="trailing" constant="5" id="bCl-dD-akw"/>
-                                                <constraint firstItem="Ny4-9d-NBE" firstAttribute="top" secondItem="hf9-RK-bKc" secondAttribute="top" constant="5" id="bx4-9j-enl"/>
                                                 <constraint firstItem="tbq-DE-fFP" firstAttribute="top" secondItem="hf9-RK-bKc" secondAttribute="top" constant="5" id="mpC-Ht-Xkc"/>
                                                 <constraint firstItem="iHh-3U-YXF" firstAttribute="leading" secondItem="hf9-RK-bKc" secondAttribute="leading" constant="10" id="uKY-SA-myR"/>
                                             </constraints>
@@ -69,7 +79,8 @@
                                         <connections>
                                             <outlet property="checkButton" destination="iHh-3U-YXF" id="BVO-rL-voG"/>
                                             <outlet property="deleteButton" destination="tbq-DE-fFP" id="J5H-yM-U3d"/>
-                                            <outlet property="workLabel" destination="Ny4-9d-NBE" id="elx-nj-PKY"/>
+                                            <outlet property="updateButton" destination="dMa-wf-x4h" id="PeH-ZI-cFY"/>
+                                            <outlet property="workLabel" destination="5Je-OO-BGY" id="2kS-QY-n24"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -186,5 +197,7 @@
         <image name="checkmark.rectangle.fill" catalog="system" width="64" height="46"/>
         <image name="clear.fill" catalog="system" width="64" height="56"/>
         <image name="info.circle" catalog="system" width="64" height="60"/>
+        <image name="pencil" catalog="system" width="64" height="56"/>
+        <image name="pencil.slash" catalog="system" width="64" height="56"/>
     </resources>
 </document>

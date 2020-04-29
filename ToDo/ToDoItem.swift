@@ -10,6 +10,6 @@ import Foundation
 
 struct ToDoItem{
     let id : Int 
-    let working : String
+    var working : String
     var isSelected : Bool
 }
