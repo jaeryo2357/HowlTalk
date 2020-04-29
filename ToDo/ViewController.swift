@@ -89,7 +89,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         cell.updateButtonAction = { (work :String) in
             if let myDB = self.db{
-                var item = self.toDoList[indexPath.row]
+                let item = self.toDoList[indexPath.row]
                 self.toDoList[indexPath.row].working = work
                 myDB.updateToDo(id: item.id, work : work,isSelected: item.isSelected)
             }
